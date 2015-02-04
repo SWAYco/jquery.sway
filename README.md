@@ -42,11 +42,11 @@ swayIcon.checkUserCompatibility({}, function(resp) {
   console.log(resp);
   if(resp == 'yes' || resp == 'may_be') {
     // load survey
-    swayIcon.loadSurvey({}, function() {
+    swayIcon.loadSurvey(function() {
       console.log('survey loaded (loadSurvey callback)');
       
       // show Sway icon
-      swayIcon.showIcon({});
+      swayIcon.showIcon();
     });
   }
 });
