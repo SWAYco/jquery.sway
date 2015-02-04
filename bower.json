@@ -1,11 +1,16 @@
 {
   "name": "jquery.sway",
+  "description": "SDK for adding SWAYco surveys to your site",
   "version": "0.0.2",
   "homepage": "https://github.com/SWAYco/jquery.sway",
   "authors": [
     "imposibrus <imposibrus@gmail.com>"
   ],
-  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/SWAYco/jquery.sway.git"
+  },
+  "main": "dist/jquery.sway.js",
   "license": "MIT",
   "ignore": [
     "**/.*",
