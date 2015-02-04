@@ -1,6 +1,9 @@
 SDK for adding SWAYco surveys to your site
 ==========================================
 
+## Requirements ##
+- jQuery >= 1.8
+
 ## Quick start ##
 
 - Register on [SWAYco](http://swayco.co) site
@@ -9,14 +12,14 @@ SDK for adding SWAYco surveys to your site
 - Copy `distribution id` at top of the page and `application id` of just added website
 - Add scripts to your page:
 
-```
+```html
 <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 <script type="text/javascript" src="//cdn.swayco.co/public/js/jquery.sway.0.0.2.js"></script>
 ```
 
 - Init SDK:
 
-```
+```js
 var swayIcon = new SwayIcon({
     distribution_id: 'distribution_id',
     application_type: 'web',
@@ -33,7 +36,7 @@ var swayIcon = new SwayIcon({
 
 - Check user compatibility and load survey if we have surveys for current user:
 
-```
+```js
 swayIcon.checkUserCompatibility({}, function(resp) {
   // resp can be one of: yes, no, may_be
   console.log(resp);
