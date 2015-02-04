@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      color: #000;
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <div class="row">
+    <div class="col-xs-3">
+      <h1>Sidebar with some content</h1>
+    </div>
+    <div class="col-xs-9">
+      <h1>Lorem ipsum dolor sit amet.</h1>
+      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sit totam, hic explicabo perspiciatis eos dolorem nihil voluptate, quaerat deleniti autem.</p>
+
+      <div id="survey_container" style="border: 1px solid #000;">
+        <h3>There will be a survey</h3>
+      </div>
+      <br/>
+      <br/>
+      <br/>
+      <button class="btn btn-default check_compatibility">Check user compatibility</button>
+      <button class="btn btn-default load_survey">Load survey</button>
+      <button class="btn btn-default show_icon">Show Sway icon</button>
+      <button class="btn btn-default hide_icon">Hide Sway icon</button>
+      <button class="btn btn-default show_in_container">Show survey in container</button>
+
+      <h4>Event log:</h4>
+      <pre class="log"></pre>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script type="text/javascript" src="//swayco.co/public/storage/jquery.sway.0.0.2.js"></script>
+<script type="text/javascript">
+
+  $(function() {
+
+    var log = function() {
+      $('.log').append(Array.prototype.slice.call(arguments).join(': ') + '\n');
+    };
+
+    var swayIcon = new SwayIcon({
+      distribution_id: '54b37555c994eaf91891a557',
+      application_id: '54d20e11a71684103f9f6543',
+      onLoaded: function() {
+        log('survey loaded (constructor callback)');
+      },
+      onQuestions: function(questionsData) {
+        log('onQuestions', JSON.stringify(questionsData));
+      },
+      onSuccess: function(surveyFrom) {
+        log('onSuccess survey from', JSON.stringify(surveyFrom));
+      },
+      onTerminated: function() {
+        log('survey terminated');
+        swayIcon.hideIcon();
+      },
+      onAudienceMismatch: function() {
+        // audience mismatch
+        log('we have completed the group for current user demographic profile');
+      },
+      onError: function(err) {
+        log(err);
+      }
+    });
+
+    $(document).on('click', '.load_survey', function() {
+      swayIcon.loadSurvey({
+        left: 'auto',
+        right: '20px',
+        top: '90px',
+        bottom: 'auto',
+        width: '500px'
+      }, function() {
+        log('survey loaded (loadSurvey callback)');
+      });
+    });
+
+    $(document).on('click', '.show_icon', function() {
+      swayIcon.showIcon({});
+    });
+
+    $(document).on('click', '.hide_icon', function() {
+      swayIcon.hideIcon();
+    });
+
+    $(document).on('click', '.show_in_container', function() {
+      var surveyInContainer = new SwayIcon({
+        distribution_id: '54b37555c994eaf91891a557',
+        application_id: '54d20e11a71684103f9f6543',
+        container: $('#survey_container'),
+        onLoaded: function() {
+          log('survey loaded in container');
+        },
+        onQuestions: function(questionsData) {
+          log('onQuestions', JSON.stringify(questionsData));
+        },
+        onSuccess: function(surveyFrom) {
+          log('onSuccess survey from', surveyFrom);
+        },
+        onTerminated: function() {
+          log('survey terminated');
+        },
+        onAudienceMismatch: function() {
+          // audience mismatch
+          log('we have completed the group for current user demographic profile');
+        },
+        onError: function(err) {
+          log(err);
+        }
+      });
+    });
+
+    $(document).on('click', '.check_compatibility', function() {
+      swayIcon.checkUserCompatibility({}, function(resp) {
+        log('we have surveys for the current user? ', resp);
+      });
+    });
+
+  });
+
+</script>
+</body>
+</html>
