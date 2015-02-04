@@ -61,16 +61,16 @@ SwayIcon(<Object> options)
 Creates new instance of SwayIcon.
 
 `options` hash:
-- `distribution_id` - <String> Required. Get it in [dashboard](http://swayco.co/app)
-- `application_id` - <String> Required. You get it after adding new App or Website in [dashboard](http://swayco.co/app)
-- `container` - <DOM Node | jQuery Object>. If provided, survey will be placed inside this container immediately.
-- `onLoaded()` - <Function>. Callback, which will be called, when the survey will be successfully loaded (after `.loadSurvey()` call).
-- `onQuestions(<Object> questions)` - <Function>. Callback, which will be called after `onLoaded`. One argument with array of questions and answers for loaded survey.
-- `onSuccess(<String> surveyFrom)` - <Function>. Callback, which will be called after survey successful completes. One argument with String (`developer` or `researcher`).
+- `distribution_id` - `<String>` Required. Get it in [dashboard](http://swayco.co/app)
+- `application_id` - `<String>` Required. You get it after adding new App or Website in [dashboard](http://swayco.co/app)
+- `container` - `<DOM Node | jQuery Object>`. If provided, survey will be placed inside this container immediately.
+- `onLoaded()` - `<Function>`. Callback, which will be called, when the survey will be successfully loaded (after `.loadSurvey()` call).
+- `onQuestions(<Object> questions)` - `<Function>`. Callback, which will be called after `onLoaded`. One argument with array of questions and answers for loaded survey.
+- `onSuccess(<String> surveyFrom)` - `<Function>`. Callback, which will be called after survey successful completes. One argument with String (`developer` or `researcher`).
 Shows whose survey was passed.
-- `onTerminated()` - <Function>. Callback, which will be called, when user choose terminating answer.
-- `onAudienceMismatch()` - <Function>. Callback, which will be called, if we do not have the survey for this user.
-- `onError(<String> err)` - <Function>. Callback, which will be called, if you enter invalid `distribution_id` or `application_id`, or on server error.
+- `onTerminated()` - `<Function>`. Callback, which will be called, when user choose terminating answer.
+- `onAudienceMismatch()` - `<Function>`. Callback, which will be called, if we do not have the survey for this user.
+- `onError(<String> err)` - `<Function>`. Callback, which will be called, if you enter invalid `distribution_id` or `application_id`, or on server error.
 
 
 
