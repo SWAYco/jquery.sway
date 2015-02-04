@@ -1,5 +1,6 @@
 
 var gulp = require('gulp'),
+    livereload = require('gulp-livereload'),
     uglify = require('gulp-uglify'),
     header = require('gulp-header'),
     concat = require('gulp-concat'),
@@ -26,7 +27,13 @@ gulp.task('build', function() {
       }))
       .pipe(concat('jquery.sway.js'))
       .pipe(header(banner, {pkg: pkg}))
-      .pipe(gulp.dest('dist/'));
+      .pipe(gulp.dest('dist/'))
+      .pipe(livereload());
+});
+
+gulp.task('watch', function() {
+  livereload.listen();
+  gulp.watch('src/*.js', ['build']);
 });
 
 gulp.task('default', ['build']);

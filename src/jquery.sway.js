@@ -182,7 +182,6 @@
       }
 
       this._$iframe.on('load', function() {
-        //console.debug('iframe loaded');
         that._$iframe[0].contentWindow.postMessage('set:id:' + that._$iframe.attr('id'), '*');
       });
 
@@ -201,14 +200,13 @@
   };
 
   SwayIcon.prototype.showIcon = function(options) {
-    //console.log('showIcon called');
     var that = this;
     this.options = $.extend(this.options, {
       left: 'auto',
       right: '20px',
       top: '90px',
       bottom: 'auto'
-    }, options);
+    }, options || {});
 
     var $existedLogo = $('#sway_logo');
     this._$logo = $existedLogo.length ? $existedLogo : $('<div/>', {id: 'sway_logo'});
@@ -255,6 +253,12 @@
 
   SwayIcon.prototype.loadSurvey = function(options, callback) {
     var that = this;
+
+    if(typeof options === 'function') {
+      callback = options;
+      options = {};
+    }
+
     this.options = $.extend(this.options, {
       left: 'auto',
       right: '20px',
@@ -287,7 +291,6 @@
     $('body').append(this._$container);
 
     this._$container.one('sway:loaded', function() {
-      //console.warn('sway:loaded');
       if(typeof callback === 'function') {
         callback.call(that);
       }
