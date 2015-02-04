@@ -14,7 +14,7 @@ SDK for adding SWAYco surveys to your site
 
 ```html
 <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-<script type="text/javascript" src="//cdn.swayco.co/public/js/jquery.sway.0.0.2.js"></script>
+<script type="text/javascript" src="//swayco.co/public/storage/jquery.sway.0.0.2.js"></script>
 ```
 
 - Init SDK:
