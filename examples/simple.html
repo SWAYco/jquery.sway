@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Simple Example</title>
+  <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      color: #000;
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <div class="row">
+    <div class="col-xs-3">
+      <h1>Sidebar with some content</h1>
+    </div>
+    <div class="col-xs-9">
+      <h1>Lorem ipsum dolor sit amet.</h1>
+      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sit totam, hic explicabo perspiciatis eos dolorem nihil voluptate, quaerat deleniti autem.</p>
+
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script type="text/javascript" src="//swayco.co/public/storage/jquery.sway.0.0.3.js"></script>
+<!--<script type="text/javascript" src="../dist/jquery.sway.js"></script>-->
+<!--<script type="text/javascript" src="../bower_components/visionmedia-debug/dist/debug.js"></script>-->
+<!--<script type="text/javascript" src="../bower_components/iframe-resizer/src/iframeResizer.js"></script>-->
+<!--<script type="text/javascript" src="../src/jquery.sway.js"></script>-->
+<script type="text/javascript">
+
+  $(function() {
+
+    var swayIcon = new SwayIcon({
+      distribution_id: '54c9f94afa5301844bcd1e60',
+      application_type: 'mobile',
+      application_id: '54ca2f6a7c0b2bfe634ad6c5',
+      apiUrl: 'http://survey.local',
+      onLoaded: function() {
+        swayIcon.showIcon();
+      }
+    });
+
+    swayIcon.checkUserCompatibility({}, function(resp) {
+      if(resp != 'no') {
+        swayIcon.loadSurvey();
+      }
+    });
+
+  });
+
+</script>
+</body>
+</html>

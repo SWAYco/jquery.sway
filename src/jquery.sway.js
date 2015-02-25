@@ -1,6 +1,8 @@
 
 (function(window, $) {
 
+  var debugLog = typeof debug !== 'undefined' ? debug('SwayIcon') : function() {};
+
   var getLocation = function(href) {
     var l = document.createElement("a");
     l.href = href;
@@ -14,6 +16,8 @@
 
   var apiUrl = scriptProtocol + '//' + scriptHostname;
 
+  debugLog('original apiUrl:', apiUrl);
+
   var ObjectToQS = function(array) {
     var pairs = [];
     for (var key in array)
@@ -24,6 +28,7 @@
 
   var SwayIcon = window.SwayIcon = function(options) {
     var that = this;
+    debugLog('constructor options:', options);
     this.options = $.extend({
       distribution_id: 'test',
       application_type: 'web',
@@ -59,6 +64,7 @@
       this._$container = $('<div/>', {id: 'sway_container'});
     }
     this._hideContainer = function() {
+      debugLog('_hideContainer called');
       that._$container.hide();
       if(that._$logo && that._$logo.length) {
         that._$logo.css('right', that.options.right);
@@ -66,6 +72,7 @@
     };
 
     this._showContainer = function() {
+      debugLog('_showContainer called');
       that._$container.show();
       that._$logo.css('right', parseInt(that.options.right, 10) + parseInt(that._$container.outerWidth(), 10));
       that._$container.find('iframe').iFrameResize({
@@ -74,6 +81,7 @@
         autoResize: false,
         sizeWidth: true,
         resizedCallback: function(obj) {
+          debugLog('iFrameResize:resizedCallback: ', obj);
           that._$container.css({
             width: obj.width,
             height: obj.height
@@ -83,12 +91,15 @@
           });
         },
         initCallback: function(iframe) {
+          debugLog('iFrameResize:initCallback: ', iframe);
           iframe.contentWindow.postMessage('set:id:' + $(iframe).attr('id'), '*');
         }
       });
     };
 
     this._makeUrl = function(isFloating) {
+      debugLog('_makeUrl called');
+      debugLog('_makeUrl:isFloating:', isFloating);
       var url = apiUrl + '/distribution/'+ this.options.distribution_id +'/'+ this.options.application_type + (this.options.application_id ? '/' + this.options.application_id : ''),
           queryString = ObjectToQS(this.options.user);
 
@@ -100,6 +111,7 @@
         }
       }
 
+      debugLog('_makeUrl:queryString:', queryString);
       if(queryString) {
         url = url + '?' + queryString;
       }
@@ -107,8 +119,10 @@
     };
 
     this._createIframe = function($container) {
+      debugLog('_createIframe called');
       var that = this;
 
+      debugLog('_createIframe:$container: ', $container);
       this.options = $.extend(this.options, {
         width: '100%',
         height: '300px',
@@ -118,6 +132,7 @@
 
       var url = this._makeUrl($container.data('floating'));
 
+      debugLog('_createIframe:url: ', url);
       // create new iframe, but not insert to DOM
       this._$iframe = $('<iframe />', {
         name: this.options.name,
@@ -131,6 +146,7 @@
 
       var regexp = new RegExp('^' + this._$iframe.attr('id') + ':');
       var postMessageController = function(e) {
+        debugLog('postMessageController:data: ', e.data);
         if(e.origin == apiUrl && regexp.test(e.data)) {
           var data = e.data.replace(regexp, '');
           if(data == 'surveyEnd') {
@@ -179,9 +195,11 @@
       // insert created iframe to DOM
       if($container && $container.jquery) {
         $container.html(this._$iframe);
+        debugLog('_createIframe: iframe has been inserted to DOM');
       }
 
       this._$iframe.on('load', function() {
+        debugLog('_createIframe: iframe load event');
         that._$iframe[0].contentWindow.postMessage('set:id:' + that._$iframe.attr('id'), '*');
       });
 
@@ -201,6 +219,7 @@
 
   SwayIcon.prototype.showIcon = function(options) {
     var that = this;
+    debugLog('showIcon:options', options);
     this.options = $.extend(this.options, {
       left: 'auto',
       right: '20px',
@@ -225,14 +244,18 @@
     }).data('right', this.options.right);
 
     this._$logo.unbind('click').bind('click', function() {
+      debugLog('showIcon:logo:click');
       if(!that._$container.find('iframe').length) {
         that.loadSurvey(that.options);
+        debugLog('showIcon:logo:click:loadSurvey');
       }
 
       if(that._$container.is(':visible')) {
         that._hideContainer();
+        debugLog('showIcon:logo:click:_hideContainer');
       } else if(!that._$container.is(':empty')) {
         that._showContainer();
+        debugLog('showIcon:logo:click:_showContainer');
       }
     });
 
@@ -246,13 +269,16 @@
 
   SwayIcon.prototype.hideIcon = function() {
     this._hideContainer();
+    debugLog('hideIcon _hideContainer called');
     if(this._$logo && this._$logo.length) {
       this._$logo.remove();
+      debugLog('hideIcon logo removed');
     }
   };
 
   SwayIcon.prototype.loadSurvey = function(options, callback) {
     var that = this;
+    debugLog('loadSurvey:options', options);
 
     if(typeof options === 'function') {
       callback = options;
@@ -269,8 +295,10 @@
 
     var $existingContainer = $('#sway_container');
     if(!$existingContainer.length) {
+      debugLog('loadSurvey: no existing container');
       this._$container = $('<div/>', {id: 'sway_container'});
     } else {
+      debugLog('loadSurvey: has existing container');
       this._$container = $existingContainer;
     }
 
@@ -289,8 +317,10 @@
     this._createIframe(this._$container);
 
     $('body').append(this._$container);
+    debugLog('loadSurvey: container inserted in DOM');
 
     this._$container.one('sway:loaded', function() {
+      debugLog('loadSurvey: container sway:loaded event');
       if(typeof callback === 'function') {
         callback.call(that);
       }
@@ -300,6 +330,7 @@
 
 
   SwayIcon.prototype.checkUserCompatibility = function(user, callback) {
+    debugLog('checkUserCompatibility:user', user);
     return $.ajax({
       url: apiUrl + "/misc/checkUserCompatibility",
       jsonp: "callback",
@@ -311,10 +342,12 @@
         user: JSON.stringify(user)
       }
     }).done(function(data) {
+      debugLog('checkUserCompatibility:done', data);
       if(typeof callback === 'function') {
         callback(data);
       }
     }).fail(function() {
+      debugLog('checkUserCompatibility:fail', arguments);
       if(typeof callback === 'function') {
         callback('no');
       }

@@ -16,8 +16,8 @@ var banner = [
   ''
 ].join('\n');
 
-gulp.task('build', function() {
-  gulp.src(['bower_components/iframe-resizer/src/iframeResizer.js', 'src/jquery.sway.js'])
+var buildTask = function(files) {
+  gulp.src(files)
       .pipe(uglify({
         preserveComments: function(q, w) {
           if(w.value.indexOf('File:') != -1) {
@@ -29,6 +29,14 @@ gulp.task('build', function() {
       .pipe(header(banner, {pkg: pkg}))
       .pipe(gulp.dest('dist/'))
       .pipe(livereload());
+};
+
+gulp.task('build:debug', function() {
+  buildTask(['bower_components/iframe-resizer/src/iframeResizer.js', 'bower_components/visionmedia-debug/dist/debug.js', 'src/jquery.sway.js']);
+});
+
+gulp.task('build', function() {
+  buildTask(['bower_components/iframe-resizer/src/iframeResizer.js', 'src/jquery.sway.js']);
 });
 
 gulp.task('watch', function() {

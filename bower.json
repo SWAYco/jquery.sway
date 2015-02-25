@@ -20,6 +20,7 @@
     "tests"
   ],
   "dependencies": {
-    "iframe-resizer": "~2.8.3"
+    "iframe-resizer": "~2.8.3",
+    "visionmedia-debug": "~2.1.1"
   }
 }
