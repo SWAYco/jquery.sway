@@ -36,11 +36,21 @@
       user: {},
       onEnd: function() {},
       onQuestions: function() {},
-      onLoaded: function() {},
-      onSuccess: function() {},
-      onTerminated: function() {},
-      onAudienceMismatch: function() {},
-      onError: function() {}
+      onLoaded: function() {
+        this.showIcon();
+      },
+      onSuccess: function() {
+        this.hideIcon();
+      },
+      onTerminated: function() {
+        this.hideIcon();
+      },
+      onAudienceMismatch: function() {
+        this.hideIcon();
+      },
+      onError: function() {
+        this.hideIcon();
+      }
     }, options);
 
     if(options.apiUrl) {
