@@ -1,6 +1,6 @@
 {
   "name": "jquery.sway",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "SDK for adding SWAYco surveys to your site",
   "main": "dist/jquery.sway.js",
   "scripts": {

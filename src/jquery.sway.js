@@ -245,7 +245,7 @@
       top: this.options.top,
       bottom: this.options.bottom,
       position: 'fixed',
-      background: '#D7D7D7 url('+ apiUrl +'/public/images/blue_2.png) no-repeat center center',
+      background: '#D7D7D7 url('+ apiUrl +'/misc/icon/' + this.options.distribution_id + '/' + this.options.application_id + '?distribution=web) no-repeat center center',
       width: '65px',
       height: '65px',
       borderRadius: '10px',
