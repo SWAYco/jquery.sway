@@ -1,7 +1,7 @@
 
 (function(window, $) {
 
-  var debugLog = typeof debug !== 'undefined' ? debug('SwayIcon') : function() {};
+  var debugLog = typeof debug !== 'undefined' ? debug('MarkelyticsIcon') : function() {};
 
   var getLocation = function(href) {
     var l = document.createElement("a");
@@ -11,7 +11,7 @@
 
   var scripts = document.getElementsByTagName('script');
   var currentScript = scripts[scripts.length - 1],
-      scriptHostname = getLocation(currentScript.src).hostname || 'swayco.co',
+      scriptHostname = getLocation(currentScript.src).hostname || 'mph-markelytics.com',
       scriptProtocol = getLocation(currentScript.src).protocol || 'http:';
 
   var apiUrl = scriptProtocol + '//' + scriptHostname;
@@ -26,7 +26,7 @@
     return pairs.join('&');
   };
 
-  var SwayIcon = window.SwayIcon = function(options) {
+  var MarkelyticsIcon = window.MarkelyticsIcon = function(options) {
     var that = this;
     debugLog('constructor options:', options);
     this.options = $.extend({
@@ -71,7 +71,7 @@
     if(this.options.container) {
       this._$container = $(this.options.container);
     } else {
-      this._$container = $('<div/>', {id: 'sway_container'});
+      this._$container = $('<div/>', {id: 'markelytics_container'});
     }
     this._hideContainer = function() {
       debugLog('_hideContainer called');
@@ -136,8 +136,8 @@
       this.options = $.extend(this.options, {
         width: '100%',
         height: '300px',
-        name: 'sway_distribution_frame_' + Date.now(),
-        id: 'sway_distribution_frame_' + Date.now()
+        name: 'markelytics_distribution_frame_' + Date.now(),
+        id: 'markelytics_distribution_frame_' + Date.now()
       }, options);
 
       var url = this._makeUrl($container.data('floating'));
@@ -160,30 +160,30 @@
         if(e.origin == apiUrl && regexp.test(e.data)) {
           var data = e.data.replace(regexp, '');
           if(data == 'surveyEnd') {
-            var $sway_logo = $('#sway_logo');
+            var $markelytics_logo = $('#markelytics_logo');
             if(that.data('floating') == true) {
-              $sway_logo.css('right', $sway_logo.data('right'));
+              $markelytics_logo.css('right', $markelytics_logo.data('right'));
             }
             that.options.onEnd.call(that, e);
           } else if(data == 'distributionReady') {
-            $container.trigger('sway:loaded');
+            $container.trigger('markelytics:loaded');
             that.options.onLoaded.call(that);
           } else if(/^surveyQuestionsText:/.test(data)) {
             var questionsData = JSON.parse(data.replace('surveyQuestionsText:', ''));
-            $container.trigger('sway:questions', questionsData);
+            $container.trigger('markelytics:questions', questionsData);
             that.options.onQuestions.call(that, questionsData);
           } else if(/^success:/.test(data)) {
             var surveyFrom = data.replace('success:', '');
-            $container.trigger('sway:success', surveyFrom);
+            $container.trigger('markelytics:success', surveyFrom);
             that.options.onSuccess.call(that, surveyFrom);
           } else if(data == 'terminated') {
-            $container.trigger('sway:terminated');
+            $container.trigger('markelytics:terminated');
             that.options.onTerminated.call(that);
           } else if(data == 'audience') {
-            $container.trigger('sway:audienceMismatch');
+            $container.trigger('markelytics:audienceMismatch');
             that.options.onAudienceMismatch.call(that);
           } else if(data == 'wrong_id' || e.data == 'wrongDistribution') {
-            $container.trigger('sway:error');
+            $container.trigger('markelytics:error');
             that.options.onError.call(that, 'wrong distribution or application id');
           }
         }
@@ -227,7 +227,7 @@
     return this;
   };
 
-  SwayIcon.prototype.showIcon = function(options) {
+  MarkelyticsIcon.prototype.showIcon = function(options) {
     var that = this;
     debugLog('showIcon:options', options);
     this.options = $.extend(this.options, {
@@ -237,8 +237,8 @@
       bottom: 'auto'
     }, options || {});
 
-    var $existedLogo = $('#sway_logo');
-    this._$logo = $existedLogo.length ? $existedLogo : $('<div/>', {id: 'sway_logo'});
+    var $existedLogo = $('#markelytics_logo');
+    this._$logo = $existedLogo.length ? $existedLogo : $('<div/>', {id: 'markelytics_logo'});
     this._$logo.css({
       left: this.options.left,
       right: this.options.right,
@@ -277,7 +277,7 @@
 
   };
 
-  SwayIcon.prototype.hideIcon = function() {
+  MarkelyticsIcon.prototype.hideIcon = function() {
     this._hideContainer();
     debugLog('hideIcon _hideContainer called');
     if(this._$logo && this._$logo.length) {
@@ -286,7 +286,7 @@
     }
   };
 
-  SwayIcon.prototype.loadSurvey = function(options, callback) {
+  MarkelyticsIcon.prototype.loadSurvey = function(options, callback) {
     var that = this;
     debugLog('loadSurvey:options', options);
 
@@ -303,10 +303,10 @@
       width: '500px'
     }, options);
 
-    var $existingContainer = $('#sway_container');
+    var $existingContainer = $('#markelytics_container');
     if(!$existingContainer.length) {
       debugLog('loadSurvey: no existing container');
-      this._$container = $('<div/>', {id: 'sway_container'});
+      this._$container = $('<div/>', {id: 'markelytics_container'});
     } else {
       debugLog('loadSurvey: has existing container');
       this._$container = $existingContainer;
@@ -329,8 +329,8 @@
     $('body').append(this._$container);
     debugLog('loadSurvey: container inserted in DOM');
 
-    this._$container.one('sway:loaded', function() {
-      debugLog('loadSurvey: container sway:loaded event');
+    this._$container.one('markelytics:loaded', function() {
+      debugLog('loadSurvey: container markelytics:loaded event');
       if(typeof callback === 'function') {
         callback.call(that);
       }
@@ -339,7 +339,7 @@
   };
 
 
-  SwayIcon.prototype.checkUserCompatibility = function(user, callback) {
+  MarkelyticsIcon.prototype.checkUserCompatibility = function(user, callback) {
     debugLog('checkUserCompatibility:user', user);
     return $.ajax({
       url: apiUrl + "/misc/checkUserCompatibility",

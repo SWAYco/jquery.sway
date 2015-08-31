@@ -39,9 +39,9 @@
 </div>
 
 <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-<script type="text/javascript" src="//swayco.co/public/storage/jquery.sway.0.0.3.js"></script>
+<script type="text/javascript" src="//mph-markelytics.com/public/storage/jquery.markelytics.0.0.3.js"></script>
 <!--<script type="text/javascript" src="../bower_components/iframe-resizer/src/iframeResizer.js"></script>-->
-<!--<script type="text/javascript" src="../src/jquery.sway.js"></script>-->
+<!--<script type="text/javascript" src="../src/jquery.markelytics.js"></script>-->
 <script type="text/javascript">
 
   $(function() {
@@ -50,7 +50,7 @@
       $('.log').append(Array.prototype.slice.call(arguments).join(': ') + '\n');
     };
 
-    var swayIcon = new SwayIcon({
+    var markelyticsIcon = new MarkelyticsIcon({
       distribution_id: '54b37555c994eaf91891a557',
       application_id: '54d20e11a71684103f9f6543',
       onLoaded: function() {
@@ -64,7 +64,7 @@
       },
       onTerminated: function() {
         log('survey terminated');
-        swayIcon.hideIcon();
+        markelyticsIcon.hideIcon();
       },
       onAudienceMismatch: function() {
         // audience mismatch
@@ -76,7 +76,7 @@
     });
 
     $(document).on('click', '.load_survey', function() {
-      swayIcon.loadSurvey({
+      markelyticsIcon.loadSurvey({
         left: 'auto',
         right: '20px',
         top: '90px',
@@ -88,15 +88,15 @@
     });
 
     $(document).on('click', '.show_icon', function() {
-      swayIcon.showIcon({});
+      markelyticsIcon.showIcon({});
     });
 
     $(document).on('click', '.hide_icon', function() {
-      swayIcon.hideIcon();
+      markelyticsIcon.hideIcon();
     });
 
     $(document).on('click', '.show_in_container', function() {
-      var surveyInContainer = new SwayIcon({
+      var surveyInContainer = new MarkelyticsIcon({
         distribution_id: '54b37555c994eaf91891a557',
         application_id: '54d20e11a71684103f9f6543',
         container: $('#survey_container'),
@@ -123,7 +123,7 @@
     });
 
     $(document).on('click', '.check_compatibility', function() {
-      swayIcon.checkUserCompatibility({}, function(resp) {
+      markelyticsIcon.checkUserCompatibility({}, function(resp) {
         log('we have surveys for the current user? ', resp);
       });
     });

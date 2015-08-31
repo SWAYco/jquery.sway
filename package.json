@@ -1,21 +1,21 @@
 {
-  "name": "jquery.sway",
+  "name": "jquery.markelytics",
   "version": "0.0.3",
-  "description": "SDK for adding SWAYco surveys to your site",
-  "main": "dist/jquery.sway.js",
+  "description": "SDK for adding Markelytics surveys to your site",
+  "main": "dist/jquery.markelytics.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/SWAYco/jquery.sway.git"
+    "url": "https://github.com/SWAYco/jquery.markelytics.git"
   },
   "author": "Vadim Petrov <imposibrus@gmail.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/SWAYco/jquery.sway/issues"
+    "url": "https://github.com/SWAYco/jquery.markelytics/issues"
   },
-  "homepage": "https://github.com/SWAYco/jquery.sway",
+  "homepage": "https://github.com/SWAYco/jquery.markelytics",
   "devDependencies": {
     "gulp": "^3.8.10",
     "gulp-concat": "^2.4.3",

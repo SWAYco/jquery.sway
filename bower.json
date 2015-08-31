@@ -1,16 +1,16 @@
 {
-  "name": "jquery.sway",
-  "description": "SDK for adding SWAYco surveys to your site",
+  "name": "jquery.markelytics",
+  "description": "SDK for adding Markelytics surveys to your site",
   "version": "0.0.2",
-  "homepage": "https://github.com/SWAYco/jquery.sway",
+  "homepage": "https://github.com/SWAYco/jquery.markelytics",
   "authors": [
     "imposibrus <imposibrus@gmail.com>"
   ],
   "repository": {
     "type": "git",
-    "url": "git://github.com/SWAYco/jquery.sway.git"
+    "url": "git://github.com/SWAYco/jquery.markelytics.git"
   },
-  "main": "dist/jquery.sway.js",
+  "main": "dist/jquery.markelytics.js",
   "license": "MIT",
   "ignore": [
     "**/.*",

@@ -25,18 +25,18 @@ var buildTask = function(files) {
           }
         }
       }))
-      .pipe(concat('jquery.sway.js'))
+      .pipe(concat('jquery.markelytics.js'))
       .pipe(header(banner, {pkg: pkg}))
       .pipe(gulp.dest('dist/'))
       .pipe(livereload());
 };
 
 gulp.task('build:debug', function() {
-  buildTask(['bower_components/iframe-resizer/src/iframeResizer.js', 'bower_components/visionmedia-debug/dist/debug.js', 'src/jquery.sway.js']);
+  buildTask(['bower_components/iframe-resizer/src/iframeResizer.js', 'bower_components/visionmedia-debug/dist/debug.js', 'src/jquery.markelytics.js']);
 });
 
 gulp.task('build', function() {
-  buildTask(['bower_components/iframe-resizer/src/iframeResizer.js', 'src/jquery.sway.js']);
+  buildTask(['bower_components/iframe-resizer/src/iframeResizer.js', 'src/jquery.markelytics.js']);
 });
 
 gulp.task('watch', function() {

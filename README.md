@@ -6,21 +6,21 @@ SDK for adding SWAYco surveys to your site
 
 ## Quick start ##
 
-- Register on [SWAYco](http://swayco.co) site
-- Go to [account page](http://swayco.co/app)
+- Register on [SWAYco](http://mph-markelytics.com) site
+- Go to [account page](http://mph-markelytics.com/app)
 - Press "Add an Website" button and fill the form
 - Copy `distribution id` at top of the page and `application id` of just added website
 - Add scripts to your page:
 
 ```html
 <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-<script type="text/javascript" src="//swayco.co/public/storage/jquery.sway.0.0.2.js"></script>
+<script type="text/javascript" src="//mph-markelytics.com/public/storage/jquery.markelytics.0.0.2.js"></script>
 ```
 
 - Init SDK:
 
 ```js
-var swayIcon = new SwayIcon({
+var markelyticsIcon = new MarkelyticsIcon({
     distribution_id: 'distribution_id',
     application_type: 'web',
     application_id: 'application_id',
@@ -29,7 +29,7 @@ var swayIcon = new SwayIcon({
       console.log('survey from', surveyFrom);
       
       // hide icon and survey:
-      swayIcon.hideIcon();
+      markelyticsIcon.hideIcon();
     }
 });
 ```
@@ -37,16 +37,16 @@ var swayIcon = new SwayIcon({
 - Check user compatibility and load survey if we have surveys for current user:
 
 ```js
-swayIcon.checkUserCompatibility({}, function(resp) {
+markelyticsIcon.checkUserCompatibility({}, function(resp) {
   // resp can be one of: yes, no, may_be
   console.log(resp);
   if(resp == 'yes' || resp == 'may_be') {
     // load survey
-    swayIcon.loadSurvey(function() {
+    markelyticsIcon.loadSurvey(function() {
       console.log('survey loaded (loadSurvey callback)');
       
       // show Sway icon
-      swayIcon.showIcon();
+      markelyticsIcon.showIcon();
     });
   }
 });
@@ -58,14 +58,14 @@ swayIcon.checkUserCompatibility({}, function(resp) {
 ### Constructor ###
 
 ```
-SwayIcon(<Object> options)
+MarkelyticsIcon(<Object> options)
 ```
 
-Creates new instance of SwayIcon.
+Creates new instance of MarkelyticsIcon.
 
 `options` hash:
-- `distribution_id` - `<String>` Required. Get it in [dashboard](http://swayco.co/app)
-- `application_id` - `<String>` Required. You get it after adding new App or Website in [dashboard](http://swayco.co/app)
+- `distribution_id` - `<String>` Required. Get it in [dashboard](http://mph-markelytics.com/app)
+- `application_id` - `<String>` Required. You get it after adding new App or Website in [dashboard](http://mph-markelytics.com/app)
 - `container` - `<DOM Node | jQuery Object>`. If provided, survey will be placed inside this container immediately.
 - `onLoaded()` - `<Function>`. Callback, which will be called, when the survey will be successfully loaded (after `.loadSurvey()` call).
 - `onQuestions(<Object> questions)` - `<Function>`. Callback, which will be called after `onLoaded`. One argument with array of questions and answers for loaded survey.
