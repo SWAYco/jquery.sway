@@ -14,7 +14,7 @@ SDK for adding SWAYco surveys to your site
 
 ```html
 <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-<script type="text/javascript" src="//mph-markelytics.com/public/storage/jquery.markelytics.0.0.2.js"></script>
+<script type="text/javascript" src="//mph-markelytics.com/public/storage/jquery.markelytics.0.0.3.js"></script>
 ```
 
 - Init SDK:

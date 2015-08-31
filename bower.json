@@ -1,7 +1,7 @@
 {
   "name": "jquery.markelytics",
   "description": "SDK for adding Markelytics surveys to your site",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "homepage": "https://github.com/SWAYco/jquery.markelytics",
   "authors": [
     "imposibrus <imposibrus@gmail.com>"
