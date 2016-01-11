@@ -50,7 +50,8 @@
       },
       onError: function() {
         this.hideIcon();
-      }
+      },
+      onCintLink: function() {}
     }, options);
 
     if(options.apiUrl) {
@@ -157,7 +158,7 @@
       var regexp = new RegExp('^' + this._$iframe.attr('id') + ':');
       var postMessageController = function(e) {
         debugLog('postMessageController:data: ', e.data);
-        if(e.origin == apiUrl && regexp.test(e.data)) {
+        if(/*e.origin == apiUrl && */regexp.test(e.data)) {
           var data = e.data.replace(regexp, '');
           if(data == 'surveyEnd') {
             var $sway_logo = $('#sway_logo');
@@ -185,6 +186,17 @@
           } else if(data == 'wrong_id' || e.data == 'wrongDistribution') {
             $container.trigger('sway:error');
             that.options.onError.call(that, 'wrong distribution or application id');
+          } else if(/^cintlink:/.test(data)) {
+            var cintLink = decodeURIComponent(data.replace('cintlink:', '')),
+                windowHeight = $(window).height(),
+                containerHeight = windowHeight - parseInt(that.options.top) - 20;
+
+            $container.trigger('sway:cintLink', cintLink);
+            that.options.onCintLink.call(that, cintLink);
+            that._$iframe.attr('src', cintLink);
+            $container.attr('scrolling', 'yes');
+            $container.css('height', containerHeight);
+            that._$iframe.css('height', containerHeight);
           }
         }
       };

@@ -1,7 +1,7 @@
 {
   "name": "jquery.sway",
   "description": "SDK for adding SWAYco surveys to your site",
-  "version": "0.0.2",
+  "version": "0.0.4",
   "homepage": "https://github.com/SWAYco/jquery.sway",
   "authors": [
     "imposibrus <imposibrus@gmail.com>"
