@@ -1,6 +1,5 @@
 
 var gulp = require('gulp'),
-    livereload = require('gulp-livereload'),
     uglify = require('gulp-uglify'),
     header = require('gulp-header'),
     concat = require('gulp-concat'),
@@ -16,7 +15,8 @@ var banner = [
   ''
 ].join('\n');
 
-var buildTask = function(files) {
+var buildTask = function(files, postfix) {
+  postfix = postfix || '';
   gulp.src(files)
       .pipe(uglify({
         preserveComments: function(q, w) {
@@ -25,14 +25,13 @@ var buildTask = function(files) {
           }
         }
       }))
-      .pipe(concat('jquery.sway.js'))
+      .pipe(concat('jquery.sway'+ (postfix ? '.' + postfix : '') +'.js'))
       .pipe(header(banner, {pkg: pkg}))
-      .pipe(gulp.dest('dist/'))
-      .pipe(livereload());
+      .pipe(gulp.dest('dist/'));
 };
 
 gulp.task('build:debug', function() {
-  buildTask(['bower_components/iframe-resizer/src/iframeResizer.js', 'bower_components/visionmedia-debug/dist/debug.js', 'src/jquery.sway.js']);
+  buildTask(['bower_components/iframe-resizer/src/iframeResizer.js', 'bower_components/visionmedia-debug/dist/debug.js', 'src/jquery.sway.js'], 'debug');
 });
 
 gulp.task('build', function() {
@@ -40,9 +39,8 @@ gulp.task('build', function() {
 });
 
 gulp.task('watch', function() {
-  livereload.listen();
-  gulp.watch('src/*.js', ['build']);
+  gulp.watch('src/*.js', ['build', 'build:debug']);
 });
 
-gulp.task('default', ['build']);
+gulp.task('default', ['build', 'build:debug', 'watch']);
 

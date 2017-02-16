@@ -191,10 +191,10 @@
                 windowHeight = $(window).height(),
                 containerHeight = windowHeight - parseInt(that.options.top) - 20;
 
+            that._$container.show();
             $container.trigger('sway:cintLink', cintLink);
             that.options.onCintLink.call(that, cintLink);
-            that._$iframe.attr('src', cintLink);
-            $container.attr('scrolling', 'yes');
+            that._$iframe.attr({src: cintLink, scrolling: 'yes'});
             $container.css('height', containerHeight);
             that._$iframe.css('height', containerHeight);
           }
