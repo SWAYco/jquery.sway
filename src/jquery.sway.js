@@ -51,7 +51,8 @@
       onError: function() {
         this.hideIcon();
       },
-      onCintLink: function() {}
+      onCintLink: function() {},
+      onLucidLink: function() {}
     }, options);
 
     if(options.apiUrl) {
@@ -159,14 +160,17 @@
       var postMessageController = function(e) {
         debugLog('postMessageController:data: ', e.data);
         if(/*e.origin == apiUrl && */regexp.test(e.data)) {
-          var data = e.data.replace(regexp, '');
-          if(data == 'surveyEnd') {
+          var data = e.data.replace(regexp, ''),
+              windowHeight,
+              containerHeight;
+
+          if(data === 'surveyEnd') {
             var $sway_logo = $('#sway_logo');
             if(that.data('floating') == true) {
               $sway_logo.css('right', $sway_logo.data('right'));
             }
             that.options.onEnd.call(that, e);
-          } else if(data == 'distributionReady') {
+          } else if(data === 'distributionReady') {
             $container.trigger('sway:loaded');
             that.options.onLoaded.call(that);
           } else if(/^surveyQuestionsText:/.test(data)) {
@@ -177,19 +181,20 @@
             var surveyFrom = data.replace('success:', '');
             $container.trigger('sway:success', surveyFrom);
             that.options.onSuccess.call(that, surveyFrom);
-          } else if(data == 'terminated') {
+          } else if(data === 'terminated') {
             $container.trigger('sway:terminated');
             that.options.onTerminated.call(that);
-          } else if(data == 'audience') {
+          } else if(data === 'audience') {
             $container.trigger('sway:audienceMismatch');
             that.options.onAudienceMismatch.call(that);
-          } else if(data == 'wrong_id' || e.data == 'wrongDistribution') {
+          } else if(data === 'wrong_id' || e.data === 'wrongDistribution') {
             $container.trigger('sway:error');
             that.options.onError.call(that, 'wrong distribution or application id');
           } else if(/^cintlink:/.test(data)) {
-            var cintLink = decodeURIComponent(data.replace('cintlink:', '')),
-                windowHeight = $(window).height(),
-                containerHeight = windowHeight - parseInt(that.options.top) - 20;
+            var cintLink = decodeURIComponent(data.replace('cintlink:', ''));
+
+            windowHeight = $(window).height();
+            containerHeight = windowHeight - parseInt(that.options.top) - 20;
 
             that._$container.show();
             $container.trigger('sway:cintLink', cintLink);
@@ -197,14 +202,28 @@
             that._$iframe.attr({src: cintLink, scrolling: 'yes'});
             $container.css('height', containerHeight);
             that._$iframe.css('height', containerHeight);
+          } else if(/^lucidlink:/.test(data)) {
+            var lucidLink = decodeURIComponent(data.replace('lucidlink:', ''));
+
+            windowHeight = $(window).height();
+            containerHeight = windowHeight - parseInt(that.options.top) - 20;
+
+            that._$container.show();
+            $container.trigger('sway:lucidLink', lucidLink);
+            that.options.onLucidLink.call(that, lucidLink);
+            that._$iframe.attr({src: lucidLink, scrolling: 'yes'});
+            $container.css('height', containerHeight);
+            that._$iframe.css('height', containerHeight);
+          } else if (data === 'getPageUrl') {
+              that._$iframe[0].contentWindow.postMessage('page:url:' + window.location.href, '*');
           }
         }
       };
 
       // add window postMessage event listener and wait for messages from iframe
-      var eventMethod = window.addEventListener ? "addEventListener" : "attachEvent";
-      var eventer = window[eventMethod];
-      var messageEvent = eventMethod == "attachEvent" ? "onmessage" : "message";
+      var eventMethod = window.addEventListener ? 'addEventListener' : 'attachEvent',
+          eventer = window[eventMethod],
+          messageEvent = eventMethod === 'attachEvent' ? 'onmessage' : 'message';
 
       eventer(messageEvent, postMessageController, false);
 

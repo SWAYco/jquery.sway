@@ -20,7 +20,7 @@ var buildTask = function(files, postfix) {
   gulp.src(files)
       .pipe(uglify({
         preserveComments: function(q, w) {
-          if(w.value.indexOf('File:') != -1) {
+          if(w.value.indexOf('File:') !== -1) {
             return true;
           }
         }
