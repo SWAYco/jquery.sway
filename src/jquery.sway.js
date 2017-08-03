@@ -162,7 +162,6 @@
           surveyInPopup;
 
       function postMessageController(e) {
-          console.log('postMessageController', arguments);
         debugLog('postMessageController:data: ', e.data);
         if(/*e.origin == apiUrl && */regexp.test(e.data)) {
           var data = e.data.replace(regexp, ''),
