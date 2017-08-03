@@ -92,6 +92,8 @@
         //log: true,
         autoResize: false,
         sizeWidth: true,
+        scrolling: true,
+        maxHeight: $(window).height() - parseInt(that.options.top) - 20,
         resizedCallback: function(obj) {
           debugLog('iFrameResize:resizedCallback: ', obj);
           that._$container.css({
@@ -153,11 +155,14 @@
         width: this.options.width,
         height: this.options.height,
         frameBorder: 0,
-        scrolling: "no"
+        scrolling: 'yes'
       });
 
-      var regexp = new RegExp('^' + this._$iframe.attr('id') + ':');
-      var postMessageController = function(e) {
+      var regexp = new RegExp('^' + this._$iframe.attr('id') + ':'),
+          surveyInPopup;
+
+      function postMessageController(e) {
+          console.log('postMessageController', arguments);
         debugLog('postMessageController:data: ', e.data);
         if(/*e.origin == apiUrl && */regexp.test(e.data)) {
           var data = e.data.replace(regexp, ''),
@@ -203,22 +208,51 @@
             $container.css('height', containerHeight);
             that._$iframe.css('height', containerHeight);
           } else if(/^lucidlink:/.test(data)) {
-            var lucidLink = decodeURIComponent(data.replace('lucidlink:', ''));
-
-            windowHeight = $(window).height();
-            containerHeight = windowHeight - parseInt(that.options.top) - 20;
+            var lucidLink = decodeURIComponent(data.replace('lucidlink:', '')),
+                $openSurveyLink = $('<a href="#">Continue to survey</a>');
 
             that._$container.show();
             $container.trigger('sway:lucidLink', lucidLink);
             that.options.onLucidLink.call(that, lucidLink);
-            that._$iframe.attr({src: lucidLink, scrolling: 'yes'});
-            $container.css('height', containerHeight);
-            that._$iframe.css('height', containerHeight);
+
+            $openSurveyLink.on('click', function (e) {
+              e.preventDefault();
+
+              surveyInPopup = window.open(lucidLink, 'survey_popup', 'height=' + screen.height + ',width=' + screen.width + ',resizable=yes,scrollbars=yes,toolbar=yes,menubar=yes,location=yes');
+              surveyInPopup[eventMethod](messageEvent, postMessageController, false);
+            });
+
+            $openSurveyLink.css({
+              position: 'absolute',
+              zIndex: 100,
+              top: '70%',
+              left: '5%',
+              transform: 'translate(0, -50%)',
+              fontSize: '2em',
+              width: '90%',
+              textAlign: 'center',
+              backgroundColor: '#00aeef',
+              borderColor: '#fff',
+              color: '#fff',
+              textTransform: 'uppercase',
+              paddingTop: '7px',
+              paddingBottom: '2px',
+              lineHeight: '1.2',
+              whiteSpace: 'nowrap',
+              verticalAlign: 'middle',
+              fontWeight: 'normal',
+              padding: '6px 12px',
+              boxSizing: 'border-box',
+            });
+
+            that._$container.prepend($openSurveyLink);
           } else if (data === 'getPageUrl') {
-              that._$iframe[0].contentWindow.postMessage('page:url:' + window.location.href, '*');
+              e.source.postMessage('page:url:' + window.location.href, '*');
           }
+        } else if (e.data === 'get:id') {
+          e.source.postMessage('set:id:' + that._$iframe.attr('id'), '*');
         }
-      };
+      }
 
       // add window postMessage event listener and wait for messages from iframe
       var eventMethod = window.addEventListener ? 'addEventListener' : 'attachEvent',
