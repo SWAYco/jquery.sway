@@ -157,6 +157,7 @@
         frameBorder: 0,
         scrolling: 'yes'
       });
+      this._$iframe.css('minHeight', '150px');
 
       var regexp = new RegExp('^' + this._$iframe.attr('id') + ':'),
           surveyInPopup;
@@ -210,7 +211,7 @@
             var lucidLink = decodeURIComponent(data.replace('lucidlink:', '')),
                 $openSurveyLink = $('<a href="#">Continue to survey</a>');
 
-            that._$container.show();
+            // that._$container.show();
             $container.trigger('sway:lucidLink', lucidLink);
             that.options.onLucidLink.call(that, lucidLink);
 
@@ -241,7 +242,7 @@
               verticalAlign: 'middle',
               fontWeight: 'normal',
               padding: '6px 12px',
-              boxSizing: 'border-box',
+              boxSizing: 'border-box'
             });
 
             that._$container.prepend($openSurveyLink);
@@ -385,6 +386,7 @@
       zIndex: '5600',
       width: this.options.width,
       height: '200px',
+      minHeight: '150px',
       display: 'none'
     }).data('floating', true);
 
